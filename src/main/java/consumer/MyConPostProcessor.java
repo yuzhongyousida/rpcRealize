@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 import provider.component.ServiceConfig;
 
 /**
- *
+ *  对于consumer端而言，这个类没什么用
  */
 @Component
 public class MyConPostProcessor implements BeanPostProcessor {

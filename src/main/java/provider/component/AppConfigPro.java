@@ -16,12 +16,15 @@ import provider.impl.HelloServiceImpl;
 @ComponentScan("provider")
 @EnableAspectJAutoProxy
 public class AppConfigPro {
+
     @Bean
     public HelloServiceImpl helloServiceImpl() {
         return new HelloServiceImpl();
     }
+
     @Bean
     public ServiceConfig serviceConfig(HelloServiceImpl helloServiceImpl) {
+        // 服务属性设置
         ServiceConfig serviceConfig = new ServiceConfig();
         serviceConfig.setHost("127.0.0.1");
         serviceConfig.setPort(8081);

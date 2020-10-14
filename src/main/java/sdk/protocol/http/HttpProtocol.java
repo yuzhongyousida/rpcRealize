@@ -38,12 +38,15 @@ public class HttpProtocol implements Protocol {
         try {
             URL url = invoker.getUrl();
             Class clazz = invoker.getRfs();
+
             //1.本地缓存
             LocalRegister.register(clazz.getName(), clazz.newInstance());
             LocalRegister.register(clazz.getInterfaces()[0].getName(), clazz.newInstance());
+
             // 2.远程注册：{服务名：List(url)}
             RemoteRegister.register(clazz.getName(), url);
             RemoteRegister.register(clazz.getInterfaces()[0].getName(), url);
+
             //3.启动
             HttpServer server = new HttpServer();
             server.start(url.getHostname(), url.getPort());
@@ -57,6 +60,7 @@ public class HttpProtocol implements Protocol {
         Invoker invoker = new Invoker();
         invoker.setUrl(url);
         invoker.setRfs(type);
+
         Transport client = new HttpClient();
         client.start(url.getHostname(),url.getPort());
         invoker.setNetClinet(client);

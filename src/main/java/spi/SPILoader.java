@@ -1,9 +1,8 @@
 package spi;
 
 
-
-import sdk.cluster.Cluster;
 import sdk.Directory;
+import sdk.cluster.Cluster;
 import sdk.protocol.Protocol;
 
 import java.io.BufferedReader;
@@ -16,13 +15,17 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 public class SPILoader<T> {
-    /**
-     *
-     */
+
     private final Class<?> type;
 
+    /**
+     * SPILoader cache
+     */
     private static final ConcurrentMap<Class<?>, SPILoader<?>> SPI_LOADERS = new ConcurrentHashMap<Class<?>, SPILoader<?>>();
 
+    /**
+     * 格式：ConcurrentMap<className， HolderInstance<classInstance>>
+     **/
     private final ConcurrentMap<String, Holder<Object>> cachedInstances = new ConcurrentHashMap<>();
 
     private final Holder<Map<String, Class<?>>> cachedClasses = new Holder<>();
@@ -48,7 +51,9 @@ public class SPILoader<T> {
         if (!type.isInterface()) {
             throw new IllegalArgumentException("Extension type(" + type + ") is not interface!");
         }
+
         SPILoader<T> loader = (SPILoader<T>) SPI_LOADERS.get(type);
+
         if (loader == null) {
             SPI_LOADERS.putIfAbsent(type, new SPILoader<T>(type));
             loader = (SPILoader<T>) SPI_LOADERS.get(type);
@@ -60,11 +65,13 @@ public class SPILoader<T> {
         if (name == null || name.length() == 0) {
             throw new IllegalArgumentException("Extension name == null");
         }
+
         Holder<Object> holder = cachedInstances.get(name);
         if (holder == null) {
             cachedInstances.putIfAbsent(name, new Holder<Object>());
             holder = cachedInstances.get(name);
         }
+
         Object instance = holder.get();
         if (instance == null) {
             synchronized (holder) {

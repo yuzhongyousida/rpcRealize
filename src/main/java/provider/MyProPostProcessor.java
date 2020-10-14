@@ -7,7 +7,6 @@ import provider.component.ServiceConfig;
 
 
 /**
- * MyProPostProcessor简介
  * 后置处理器对 ServiceConfig 执行服务暴露
  * @author wangxin119
  * @date 2020-08-29 23:36

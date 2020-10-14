@@ -8,7 +8,7 @@ import java.util.*;
 
 /**
  * RemoteRegister简介
- * 通过文件的形式模拟远程服务
+ * 通过文件的形式模拟远程注册服务
  * @author wangxin119
  * @date 2020-08-29 23:37
  */

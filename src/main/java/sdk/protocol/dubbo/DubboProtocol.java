@@ -37,10 +37,12 @@ public class DubboProtocol implements Protocol {
         try {
             URL url = invoker.getUrl();
             Class clazz = invoker.getRfs();
-            //1.本地缓存
+
+            //1. 本地注册
             LocalRegister.register(clazz.getName(), clazz.newInstance());
             LocalRegister.register(clazz.getInterfaces()[0].getName(), clazz.newInstance());
-            // 2.远程注册：{服务名：List(url)}
+
+            // 2.远程注册：{服务名：List(url)}，用的本地文件做存储
             RemoteRegister.register(clazz.getName(), url);
             RemoteRegister.register(clazz.getInterfaces()[0].getName(), url);
 
@@ -53,11 +55,20 @@ public class DubboProtocol implements Protocol {
         }
     }
 
+    /**
+     * @param type interfaceClass
+     * @param url 对应接口服务的URL
+     * @return {@link sdk.Invoker<T>}
+     * @Author wangteng
+     * @Date 2020-10-12 16:55
+     * @Description //
+     **/
     @Override
     public <T> Invoker<T> refer(Class<T> type, URL url) {
         Invoker invoker = new Invoker();
         invoker.setUrl(url);
         invoker.setRfs(type);
+
         Transport client = new NettyClient();
         client.start(url.getHostname(),url.getPort());
         invoker.setNetClinet(client);

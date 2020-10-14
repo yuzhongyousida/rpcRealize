@@ -6,7 +6,7 @@ import sdk.protocol.Protocol;
 import spi.SPILoader;
 
 /**
- * 服务端 服务导出 核心类
+ * 服务端配置 核心类
  * @param <T>
  */
 public class ServiceConfig<T> {
@@ -71,20 +71,26 @@ public class ServiceConfig<T> {
     public void setProtocol(String protocol) {
         this.protocol = protocol;
     }
+
+
     /**
-     *
+     * 重写doExport方法
      */
     public synchronized void doExport(){
         String host = this.getHost();
         int port = this.getPort();
         String protocol = this.getProtocol();
         Object ref = this.getRef();
+
         //拼接URL
         URL url = new URL(host, port,protocol,weight);
+
         //初始化 invoker
         Invoker invoker = new Invoker();
         invoker.setRfs(ref.getClass());
         invoker.setUrl(url);
+
+        // 发布服务
         adaptiveProtocol.export(invoker);
     }
 }

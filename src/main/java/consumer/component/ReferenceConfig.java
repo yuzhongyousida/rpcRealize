@@ -15,12 +15,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * 消费端核心类
+ * 消费端config 配置层
  * @param <T>
  */
 public class ReferenceConfig<T> {
+
     //通过 SPILoader 声明一个 protocol 通过动态代理结合SPI，重写 refer 方法，为消费端生成一个动态的 Invoker
     private static final Protocol PROTOCOL = SPILoader.getExtensionLoader(Protocol.class).getAdaptiveExtension();
+
     //通过 SPILoader 声明一个 cluster 通过动态代理结合SPI，重写 join 方法，为消费端生成一个动态的集群容错 Invoker
     private static final Cluster CLUSTER = SPILoader.getExtensionLoader(Cluster.class).getAdaptiveExtension();
     //接口类信息
@@ -94,18 +96,30 @@ public class ReferenceConfig<T> {
         this.retry = retry;
     }
 
+    /**
+     * @param
+     * @return {@link T}
+     * @Author wangteng
+     * @Date 2020-10-12 20:43
+     * @Description 获取接口的代理类实例
+     **/
     public T get() {
         System.out.println("[wangxin]..." + interfaceClass.getName());
+
+        // 远程获取注册的服务信息，获得对应的Invoker实例
         List<Invoker<?>> invokers = new ArrayList<Invoker<?>>();
         List<URL> urls = RemoteRegister.get(interfaceClass.getName());
         for (URL url : urls) {
             Invoker invoker = PROTOCOL.refer(interfaceClass, url);
             invokers.add(invoker);
         }
-        Directory directory = new Directory(invokers);
-        System.out.println("[wangxin]..." + JSONObject.toJSONString(invokers));
-        Invoker invoker = CLUSTER.join(directory, cluster);
 
+        // 动态容错策略
+        Directory directory = new Directory(invokers);
+        Invoker invoker = CLUSTER.join(directory, cluster);
+        System.out.println("[wangxin]..." + JSONObject.toJSONString(invokers));
+
+        // 获取代理
         ref = (T) ProxyFactory.getProxy(this.interfaceClass, invoker, loadbalance, retry);
         return ref;
     }

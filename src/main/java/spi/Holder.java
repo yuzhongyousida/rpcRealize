@@ -1,7 +1,7 @@
 package spi;
 
 /**
- * Helper Class for hold a value.
+ * Class的实例持有辅助类.
  */
 public class Holder<T> {
 

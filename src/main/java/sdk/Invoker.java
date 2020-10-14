@@ -6,8 +6,8 @@ import sdk.transport.Transport;
 import java.util.List;
 
 public class Invoker<T> {
-    private URL url;
-    private Class<T> rfs;
+    private URL url; //服务URL
+    private Class<T> rfs; //实现类clazz
     private Transport netClinet;
     private Directory directory;
     public Directory getDirectory() {

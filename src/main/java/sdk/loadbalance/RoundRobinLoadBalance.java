@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentMap;
 
 /**
  * RoundRobinLoadBalance简介
- * 轮训选择
+ * 轮循选择
  * @author wangxin119
  * @date 2020-08-29 23:57
  */

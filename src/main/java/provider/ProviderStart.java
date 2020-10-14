@@ -11,6 +11,7 @@ import provider.component.AppConfigPro;
  */
 public class ProviderStart {
     public static void main(String[] args) {
+        // 启动spring容器
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(AppConfigPro.class);
     }
 }

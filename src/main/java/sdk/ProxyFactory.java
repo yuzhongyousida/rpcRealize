@@ -34,12 +34,6 @@ public class ProxyFactory {
                     Invocation invocation = new Invocation(interfaceClass.getName(),method.getName(),method.getParameterTypes(),args);
                     LoadBalance LOADBALANCE = SPILoader.getExtensionLoader(LoadBalance.class).getExtension(loadbalance);
                     return invoker.doInvoke(invocation, invoker.getDirectory().getInvokers(), LOADBALANCE,retry);
-
-                    //URL url = RemoteRegister.getRandom(interfaceClass.getName());
-
-                    //String result = protocal.send(url, invocation);
-
-                    //return result;
                 });
     }
 }

@@ -25,6 +25,8 @@ public class AppConfigCon {
         referenceConfig.setTimeout(400);//超时时间
         referenceConfig.setCluster("failover");//容错策略（SPI）
         referenceConfig.setLoadbalance("random");//负载均衡（SPI）
+
+        // 获得远程动态代理实例
         return referenceConfig.get();
     }
 }

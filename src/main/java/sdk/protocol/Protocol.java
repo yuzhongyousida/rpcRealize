@@ -6,7 +6,7 @@ import sdk.URL;
 
 
 /**
- * Protocol简介
+ * 通信协议接口-Protocol
  *
  * @author wangxin119
  * @date 2020-08-19 10:44
